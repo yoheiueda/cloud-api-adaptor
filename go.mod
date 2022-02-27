@@ -23,6 +23,6 @@ require (
 )
 
 replace (
-	github.com/kata-containers/kata-containers/src/runtime => ../kata-cc-peer-pod/src/runtime
+	github.com/kata-containers/kata-containers/src/runtime => ../kata-containers/src/runtime
 	google.golang.org/genproto => google.golang.org/genproto v0.0.0-20180817151627-c66870c02cf8
 )

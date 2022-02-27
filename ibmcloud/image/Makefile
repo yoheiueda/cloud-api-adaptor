@@ -42,8 +42,8 @@ BINARIES = $(AGENT_PROTOCOL_FORWARDER) $(KATA_AGENT) $(SKOPEO) $(UMOCI)
 
 AGENT_PROTOCOL_FORWARDER_SRC = ../..
 
-KATA_AGENT_SRC = ../../../src/agent
-KATA_AGENT_BUILD_TYPE = debug
+KATA_AGENT_SRC = ../../../kata-containers/src/agent
+KATA_AGENT_BUILD_TYPE = release
 
 SKOPEO_SRC  = skopeo
 SKOPEO_REPO = https://github.com/containers/skopeo
@@ -70,7 +70,7 @@ $(AGENT_PROTOCOL_FORWARDER): force
 $(KATA_AGENT): force
 	cd "$(KATA_AGENT_SRC)" && $(MAKE) BUILD_TYPE=$(KATA_AGENT_BUILD_TYPE)
 	mkdir -p "$(@D)"
-	install --compare "$(KATA_AGENT_SRC)/target/$(shell uname -m)-unknown-linux-musl/$(KATA_AGENT_BUILD_TYPE)/$(@F)" "$@"
+	install --compare "$(KATA_AGENT_SRC)/target/$(shell uname -m)-unknown-linux-$(if $(findstring s390x,$(shell uname -m)),gnu,musl)/$(KATA_AGENT_BUILD_TYPE)/$(@F)" "$@"
 
 $(SKOPEO_SRC):
 	git clone -b "v$(SKOPEO_VERSION)" "$(SKOPEO_REPO)" "$(SKOPEO_SRC)"
