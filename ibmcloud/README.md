@@ -101,3 +101,39 @@ The following command builds a custom VM image.
 cd ibmcloud/image
 make build
 ```
+
+You need to configure Cloud Object Storage (COS) to upload your custom VM image.
+
+https://cloud.ibm.com/objectstorage/
+
+First, create a COS service instance if you have not create one. Then, create a COS bucket with the COS instance. The COS service instance and bucket names are necessary to upload a custom VM image.
+
+The following environment variables are necessary to be set before executing the image upload script. You can change IBMCLOUD_COS_REGION if you prefer another region. In this case, you also want to change IBMCLOUD_COS_SERVICE_ENDPOINT to one of endpoints listed at [https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-endpoints](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-endpoints).
+
+```
+export IBMCLOUD_API_KEY=<your API key>
+export IBMCLOUD_COS_SERVICE_INSTANCE=<COS service instance name>
+export IBMCLOUD_COS_BUCKET=<COS bucket name>
+export IBMCLOUD_COS_REGION=jp-tok
+export IBMCLOUD_COS_SERVICE_ENDPOINT=https://s3.jp-tok.cloud-object-storage.appdomain.cloud
+```
+
+Then, you can execute the image upload script by using `make`.
+
+```
+make upload
+```
+
+After successfully uploading an image, you can verify the image by creating a virtual server instance using it. The following command will create a new server, and delete it. The VPC and subnet name are available in the terraform configuration mentioned above. You need to change the zone name if you have changed the region.
+
+```
+export IBMCLOUD_VPC_NAME=<VPC name>
+export IBMCLOUD_VPC_SUBNET_NAME=<subnet name>
+export IBMCLOUD_VPC_ZONE=jp-tok-2
+
+make verify
+```
+
+Note that creating a server from a new image may take long time. It typically takes about 10 minutes. From the second time, creating a server from the image takes one minute.
+
+You can check the name and ID of the new image at [https://cloud.ibm.com/vpc-ext/compute/images](https://cloud.ibm.com/vpc-ext/compute/images).
