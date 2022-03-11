@@ -35,7 +35,7 @@ func NewServer(cfg hypervisor.Config, cloudCfg Config, workerNode podnetwork.Wor
 
      logger.Printf("hypervisor config %v", cfg)
      logger.Printf("cloud config %v", cloudCfg)
-     ec2Client, err := NewEC2Client()
+     ec2Client, err := NewEC2Client(cloudCfg)
      if err != nil {
           return nil
      }

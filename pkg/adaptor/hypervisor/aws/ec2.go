@@ -3,7 +3,9 @@ package aws
 import (
 	"context"
 	"fmt"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 )
 
@@ -47,16 +49,30 @@ func MakeTags(c context.Context, api EC2CreateInstanceAPI, input *ec2.CreateTags
 	return api.CreateTags(c, input)
 }
 
-func NewEC2Client() (*ec2.Client, error) {
+//TODO: Use IAM role
+func NewEC2Client(cloudCfg Config) (*ec2.Client, error) {
 
-	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion("ap-south-1"),
-		config.WithSharedConfigProfile("test"))
-	if err != nil {
-		fmt.Errorf("configuration error, " + err.Error())
-		return nil, err
+	var cfg aws.Config
+	var err error
+
+	if cloudCfg.AccessKeyId != "" && cloudCfg.SecretKey != "" {
+		cfg, err = config.LoadDefaultConfig(context.TODO(),
+			config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(cloudCfg.AccessKeyId, cloudCfg.SecretKey, "")))
+		if err != nil {
+			fmt.Errorf("configuration error, " + err.Error())
+			return nil, err
+		}
+
+	} else {
+
+		cfg, err = config.LoadDefaultConfig(context.TODO(),
+			config.WithRegion(cloudCfg.Region),
+			config.WithSharedConfigProfile(cloudCfg.LoginProfile))
+		if err != nil {
+			fmt.Errorf("configuration error, " + err.Error())
+			return nil, err
+		}
 	}
-
 	client := ec2.NewFromConfig(cfg)
 	return client, nil
 }
