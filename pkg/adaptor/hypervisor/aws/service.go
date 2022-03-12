@@ -184,9 +184,9 @@ func (s *hypervisorService) StartVM(ctx context.Context, req *pb.StartVMRequest)
 		MinCount: aws.Int32(1),
 		MaxCount: aws.Int32(1),
 		LaunchTemplate: &types.LaunchTemplateSpecification{
-			LaunchTemplateId: aws.String("lt-03953efc650bba184"),
-			//  LaunchTemplateName: aws.String("kata"),
-			//Version: aws.String("5"),
+			//LaunchTemplateId: aws.String("lt-03953efc650bba184"),
+                        //Version: aws.String("1"),
+			LaunchTemplateName: aws.String("kata"),
 		},
 		UserData: &userDataEnc,
 	}
