@@ -21,7 +21,7 @@ To automate preparation of VPC and VSIs, you need to install terraform and ansib
 * [Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 
 
-Simply:
+If you are using Ubuntu linux, you can run follow commands simply:
 ```
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
@@ -31,7 +31,7 @@ sudo apt-get install terraform -y
 * [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 
-Simply:
+If you are using Ubuntu linux, you can run follow commands simply:
 ```
 sudo apt-get install -y python3
 sudo ln -s /usr/bin/python3 /usr/bin/python
@@ -44,7 +44,7 @@ Optionally, you can install IBM Cloud CLI.
 * [Installing the stand-alone IBM Cloud CLI](https://cloud.ibm.com/docs/cli?topic=cli-install-ibmcloud-cli)
 
 
-Simply:
+If you are using Ubuntu linux, you can run follow commands simply:
 ```
 curl -fsSL https://clis.cloud.ibm.com/install/linux | sh
 ibmcloud plugin install vpc-infrastructure cloud-object-storage
