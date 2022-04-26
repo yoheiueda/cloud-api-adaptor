@@ -194,7 +194,7 @@ export IBMCLOUD_API_KEY=<your API key>
 export IBMCLOUD_COS_SERVICE_INSTANCE=<COS service instance name>
 export IBMCLOUD_COS_BUCKET=<COS bucket name>
 export IBMCLOUD_API_ENDPOINT=https://cloud.ibm.com
-export IBMCLOUD_VPC_REGION=us-south
+export IBMCLOUD_VPC_REGION=jp-tok
 export IBMCLOUD_COS_REGION=jp-tok
 export IBMCLOUD_COS_SERVICE_ENDPOINT=https://s3.jp-tok.cloud-object-storage.appdomain.cloud
 ```
