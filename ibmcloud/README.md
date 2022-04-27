@@ -286,7 +286,10 @@ security_group_name=tok-primary-security-group
 vpc_region=jp-tok
 vpc_zone=jp-tok-2
 instance_profile=bx2-2x8
+```
+**Note**: Modify instance_profile to change the type of VSI provisioned e.g. to create 2 vCPU, 8GB RAM balanced `s390x` VSIs for the peer-pod use `instance_profile=bz2-2x8`
 
+```
 ibmcloud login -a https://cloud.ibm.com -r $vpc_region -apikey $api_key
 
 image_id=$(ibmcloud is image --output json $image_name | jq -r .id)
@@ -349,3 +352,11 @@ If you are using `s390x` based image as pod vm image, the output looks like:
 ```
 Linux nginx 5.4.0-109-generic #123-Ubuntu SMP Fri Apr 8 11:56:05 UTC 2022 s390x GNU/Linux
 ```
+
+**Note** When the peer pod VSI is created and it fails to start due to [capacity problems](https://cloud.ibm.com/docs/vpc?topic=vpc-instance-status-messages#cannot-start-capacity).
+
+
+Please stop `cloud-api-adaptor` on worker node, try to run peer pod VSI on another zone:
+- Create a new subnet on the target zone by hand.
+- Start `cloud-api-adaptor` with new `vpc_zone` and `primary-subnet-id` on worker node.
+- Create nginx demo again. 
