@@ -4,10 +4,10 @@
 # Run linting tools on the sources of the project.
 ---
 name: lint
-on: [pull_request]
+on: [workflow_dispatch, pull_request]
 jobs:
-  golangci-lint_job:
-    name: golangci-lint
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -16,12 +16,6 @@ jobs:
       matrix:
         go_version:
           - 1.19
-        workdir:
-          - .
-          - peerpod-ctrl
-          - peerpodconfig-ctrl
-          - volumes/csi-wrapper
-          - webhook
     steps:
       - name: Checkout the pull request code
         uses: actions/checkout@v3
@@ -33,24 +27,13 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libvirt-dev
-      - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          working-directory: ${{ matrix.workdir }}
-          args: --path-prefix=${{ matrix.workdir }}
-          # Optional: version of golangci-lint to use in form of v1.2 or v1.2.3 or `latest` to use the latest version
-          version: v1.52.2
-
-  go_check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      - uses: actions/setup-go@main
-        with:
-          go-version: 1.19
-      - name: Install build dependencies
+      - name: Install golangci-lint
+        env:
+          GOLANGCI_LINT_VERSION: "1.52.2"
+        working-directory: /tmp
         run: |
-          sudo apt-get update -y
-          sudo apt-get install -y libvirt-dev
+          curl -sSfLO "https://github.com/golangci/golangci-lint/releases/download/v${GOLANGCI_LINT_VERSION}/golangci-lint-${GOLANGCI_LINT_VERSION}-linux-amd64.tar.gz"
+          tar -xzf "golangci-lint-${GOLANGCI_LINT_VERSION}-linux-amd64.tar.gz"
+          sudo mv "golangci-lint-${GOLANGCI_LINT_VERSION}-linux-amd64/golangci-lint" /usr/local/bin
       - name: check
         run: make check
