@@ -45,5 +45,5 @@ function build_caa_payload() {
 function main() {
 	build_caa_payload
 }
-
+x=1
 main "$@"
