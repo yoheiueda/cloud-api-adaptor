@@ -49,8 +49,6 @@ func printHelp(out io.Writer) {
 
 func (cfg *daemonConfig) Setup() (cmd.Starter, error) {
 
-	var x int
-
 	if len(os.Args) < 2 {
 		printHelp(os.Stderr)
 		cmd.Exit(1)
