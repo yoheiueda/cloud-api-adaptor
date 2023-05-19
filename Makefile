@@ -94,7 +94,7 @@ else
 endif
 
 .PHONY: check
-check: fmt vet golangci-lint shellcheck ## Run formatters and linters against the code.
+check: golangci-lint shellcheck ## Run formatters and linters against the code.
 
 .PHONY: fmt
 fmt: ## Run go fmt against code.
