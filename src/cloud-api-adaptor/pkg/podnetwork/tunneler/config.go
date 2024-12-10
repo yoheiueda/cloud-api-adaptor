@@ -5,7 +5,8 @@ package tunneler
 
 type TunnelerConfigurator interface {
 	Tunneler
-	Configure(*NetworkConfig, *Config) error
+	Initialize(*NetworkConfig) error
+	Configure(*Config) error
 }
 
 type NetworkConfig struct {
