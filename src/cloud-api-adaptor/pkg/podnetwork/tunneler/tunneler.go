@@ -28,6 +28,7 @@ type Config struct {
 	VXLANPort     int          `json:"vxlan-port,omitempty"`
 	VXLANID       int          `json:"vxlan-id,omitempty"`
 	Dedicated     bool         `json:"dedicated"`
+	WireGuard     *WireGuard   `json:"wireguard,omitempty"`
 }
 
 type Route struct {
@@ -43,6 +44,13 @@ type Neighbor struct {
 	HardwareAddr string               `json:"hw-addr,omitempty"`
 	Dev          string               `json:"dev,omitempty"`
 	State        netops.NeighborState `json:"state,omitempty"`
+}
+
+type WireGuard struct {
+	Port             int    `json:"port"`
+	MTU              int    `json:"mtu"`
+	ServerPrivateKey string `json:"server-public-key,omitempty"`
+	ClientPublicKey  string `json:"client-private-key,omitempty"`
 }
 
 type driver struct {

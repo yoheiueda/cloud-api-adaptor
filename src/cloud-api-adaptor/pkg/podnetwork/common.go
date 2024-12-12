@@ -10,6 +10,7 @@ import (
 
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/vxlan"
+	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/wireguard"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/netops"
 )
 
@@ -17,6 +18,7 @@ var logger = log.New(log.Writer(), "[podnetwork] ", log.LstdFlags|log.Lmsgprefix
 
 func init() {
 	tunneler.Register("vxlan", vxlan.NewWorkerNodeTunneler, vxlan.NewPodNodeTunneler)
+	tunneler.Register("wireguard", wireguard.NewWorkerNodeTunneler, wireguard.NewPodNodeTunneler)
 }
 
 // findPrimaryInterface identifies the primary interface on the given network namespace.

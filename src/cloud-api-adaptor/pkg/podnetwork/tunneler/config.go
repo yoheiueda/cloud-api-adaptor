@@ -3,6 +3,8 @@
 
 package tunneler
 
+const DefaultNetworkNamespaceName = "peerpods"
+
 type TunnelerConfigurator interface {
 	Tunneler
 	Initialize(*NetworkConfig) error
@@ -12,10 +14,17 @@ type TunnelerConfigurator interface {
 type NetworkConfig struct {
 	TunnelType    string
 	HostInterface string
+	Namespace     string
 	VXLAN         VXLANConfig
+	WireGuard     WireGuardConfig
 }
 
 type VXLANConfig struct {
 	Port  int
 	MinID int
+}
+
+type WireGuardConfig struct {
+	Port int
+	MTU  int
 }

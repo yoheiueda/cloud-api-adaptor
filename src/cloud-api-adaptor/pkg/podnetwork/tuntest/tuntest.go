@@ -160,6 +160,10 @@ func RunTunnelTest(t *testing.T, tunnelType string, newWorkerNodeTunneler, newPo
 		case "vxlan":
 			pod.config.VXLANPort = networkConfig.VXLAN.Port    // vxlan.DefaultVXLANPort
 			pod.config.VXLANID = networkConfig.VXLAN.MinID + i // vxlan.DefaultVXLANMinID + index
+		case "wireguard":
+			pod.config.WireGuard = &tunneler.WireGuard{
+				Port: networkConfig.WireGuard.Port,
+			}
 		}
 
 		podNodeIPs := []netip.Addr{getIP(t, pod.podNodePrimaryAddr)}

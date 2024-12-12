@@ -17,6 +17,7 @@ import (
 	daemon "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/vxlan"
+	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/wireguard"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/securecomms/kubemgr"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
 	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
@@ -120,6 +121,9 @@ func (cfg *daemonConfig) Setup() (cmd.Starter, error) {
 
 		flags.StringVar(&cfg.networkConfig.TunnelType, "tunnel-type", podnetwork.DefaultTunnelType, "Tunnel provider")
 		flags.StringVar(&cfg.networkConfig.HostInterface, "host-interface", "", "Host Interface")
+		flags.StringVar(&cfg.networkConfig.Namespace, "network-namespace", tunneler.DefaultNetworkNamespaceName, "Network namespace name for peer pod network")
+		flags.IntVar(&cfg.networkConfig.WireGuard.Port, "wireguard-port", wireguard.DefaultWireGuardPort, "UDP port number of WireGuard tunnel (Experimental)")
+		flags.IntVar(&cfg.networkConfig.WireGuard.MTU, "wireguard-mtu", 0, "MTU of WireGuard interface (Experimental)")
 		flags.IntVar(&cfg.networkConfig.VXLAN.Port, "vxlan-port", vxlan.DefaultVXLANPort, "VXLAN UDP port number (VXLAN tunnel mode only")
 		flags.IntVar(&cfg.networkConfig.VXLAN.MinID, "vxlan-min-id", vxlan.DefaultVXLANMinID, "Minimum VXLAN ID (VXLAN tunnel mode only")
 		flags.StringVar(&cfg.serverConfig.Initdata, "initdata", "", "Default initdata for all Pods")

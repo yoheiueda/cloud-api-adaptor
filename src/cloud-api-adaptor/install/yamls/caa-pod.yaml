@@ -36,10 +36,7 @@ spec:
         imagePullPolicy: Always
         name: cloud-api-adaptor-con
         securityContext:
-          capabilities:
-            add:
-            - NET_ADMIN
-            - SYS_ADMIN
+          privileged: true
         startupProbe:
           httpGet:
             path: /startup
@@ -57,7 +54,7 @@ spec:
         - mountPath: /run/peerpod
           name: pods-dir
         - mountPath: /run/netns
-          mountPropagation: HostToContainer
+          mountPropagation: Bidirectional
           name: netns
         - mountPath: /run/xtables.lock
           name: xtables-lock
